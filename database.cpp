@@ -124,7 +124,7 @@ void DataBase::saveNoteById(int id, const QString &name, const QString &text)
 void DataBase::deleteNoteById(int id)
 {
     QSqlQuery query(db);
-    QString str_query = QString("DELETE FROM Notes WHERE id = 2").arg(id);
+    QString str_query = QString("DELETE FROM Notes WHERE id = %1").arg(id);
 
     if(!query.exec(str_query))
         qDebug() << "База данных | Ошибка удаления заметки";

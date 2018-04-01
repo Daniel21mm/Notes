@@ -44,25 +44,49 @@ void MainWidget::addItem(NoteModel *model)
     QListWidgetItem* item = new QListWidgetItem{};
     item->setSizeHint(view->sizeHint());
 
+    connect(model, &NoteModel::sgDeleteNote,
+            this,  &MainWidget::deleteNote);
+
     ui->listWidget->addItem(item);
     ui->listWidget->setItemWidget(item, view);
 
+}
+
+void MainWidget::deleteNote(int id)
+{
+    for(int i = 0; i < ui->listWidget->count(); i++)
+    {
+        QListWidgetItem* item = ui->listWidget->item(i);
+
+        NoteLeftView* view = qobject_cast<NoteLeftView*>(ui->listWidget->itemWidget(item));
+
+        if(id == view->model()->id())
+        {
+            item->setHidden(true);
+            ui->listWidget->removeItemWidget(item);
+            break;
+        }
+    }
+    noteRightList[id]->hide();
+    ui->stackedWidget->setCurrentWidget(startPage);
+    ui->stackedWidget->removeWidget(noteRightList[id]);
+
+    noteRightList.remove(id);
 }
 
 void MainWidget::openPage(QListWidgetItem *item)
 {
     if(NoteLeftView* m =  qobject_cast<NoteLeftView*>( ui->listWidget->itemWidget(item)))
     {
-        if(NoteRightList.contains(m->model()->id()))
+        if(noteRightList.contains(m->model()->id()))
         {
-            ui->stackedWidget->setCurrentWidget(NoteRightList[m->model()->id()]);
+            ui->stackedWidget->setCurrentWidget(noteRightList[m->model()->id()]);
         }
         else
         {
-            //выпилить!
             NoteRightView* RView = new NoteRightView(m->model());
             ui->stackedWidget->addWidget(RView);
-            NoteRightList.insert(m->model()->id(), RView);
+            noteRightList.insert(m->model()->id(), RView);
         }
     }
 }
@@ -73,10 +97,10 @@ void MainWidget::searchNotes(const QString &subStr)
     {
         QListWidgetItem* item = ui->listWidget->item(i);
 
-        NoteLeftView* view = qobject_cast<NoteLeftView*>(ui->listWidget->itemWidget(item));
-
-        QString name = view->model()->name().toLower();
-
-        item->setHidden(!name.contains(subStr.toLower()));
+        if(NoteLeftView* view = qobject_cast<NoteLeftView*>(ui->listWidget->itemWidget(item)))
+        {
+            QString name = view->model()->name().toLower();
+            item->setHidden(!name.contains(subStr.toLower()));
+        }
     }
 }
