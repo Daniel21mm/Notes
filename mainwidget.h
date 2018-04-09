@@ -28,6 +28,8 @@ private slots:
     void    searchNotes(const QString& subStr);
     void    addItem(NoteModel* model);
 
+    void    deleteNote(int id);
+
 private:
     Ui::MainWidget *ui;
 
@@ -35,7 +37,7 @@ private:
 
     DataBase*       db;
     NoteModelList   noteList;
-    QMap<int, NoteRightView*> NoteRightList;
+    QMap<int, NoteRightView*> noteRightList;
 };
 
 #endif // MAINWIDGET_H

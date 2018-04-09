@@ -22,6 +22,8 @@ public:
 private slots:
     void    save();
 
+    void    showDialogByDelete();
+
 private:
     Ui::NoteRightView *ui;
 
