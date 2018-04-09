@@ -38,7 +38,7 @@ void MainWidget::init()
             this,           &MainWidget::searchNotes);
 
     connect(ui->add,        &QPushButton::clicked,
-            this,           &MainWidget::addNote);
+            addNoteWgt,     &AddNote::exec);
 
     connect(addNoteWgt,     &AddNote::createNewNote,
             this,           &MainWidget::createrNewNote);
@@ -58,11 +58,6 @@ void MainWidget::addItem(NoteModel *model)
     ui->listWidget->addItem(item);
     ui->listWidget->setItemWidget(item, view);
 
-}
-
-void MainWidget::addNote()
-{
-    addNoteWgt->exec();
 }
 
 void MainWidget::deleteNote(int id)

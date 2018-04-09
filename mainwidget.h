@@ -28,7 +28,6 @@ private slots:
     void    openPage(QListWidgetItem* item);
     void    searchNotes(const QString& subStr);
     void    addItem(NoteModel* model);
-    void    addNote();
 
     void    deleteNote(int id);
 
