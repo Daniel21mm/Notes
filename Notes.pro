@@ -30,7 +30,8 @@ SOURCES += \
     notemodel.cpp \
     startpage.cpp \
     noterightview.cpp \
-    noteleftview.cpp
+    noteleftview.cpp \
+    addnote.cpp
 
 HEADERS += \
         mainwidget.h \
@@ -38,13 +39,15 @@ HEADERS += \
     notemodel.h \
     startpage.h \
     noterightview.h \
-    noteleftview.h
+    noteleftview.h \
+    addnote.h
 
 FORMS += \
         mainwidget.ui \
     startpage.ui \
     noterightview.ui \
-    noteleftview.ui
+    noteleftview.ui \
+    addnote.ui
 
 RESOURCES += \
     main.qrc
