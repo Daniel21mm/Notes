@@ -25,6 +25,8 @@ void MainWidget::init()
     startPage = new StartPage;
     ui->stackedWidget->addWidget(startPage);
 
+    addNoteWgt = new AddNote(this);
+
     noteList = db->noteList();
     for(NoteModel* model : noteList)
         addItem(model);
@@ -34,6 +36,12 @@ void MainWidget::init()
 
     connect(ui->search,     &QLineEdit::textEdited,
             this,           &MainWidget::searchNotes);
+
+    connect(ui->add,        &QPushButton::clicked,
+            this,           &MainWidget::addNote);
+
+    connect(addNoteWgt,     &AddNote::createNewNote,
+            this,           &MainWidget::createrNewNote);
 }
 
 
@@ -50,6 +58,11 @@ void MainWidget::addItem(NoteModel *model)
     ui->listWidget->addItem(item);
     ui->listWidget->setItemWidget(item, view);
 
+}
+
+void MainWidget::addNote()
+{
+    addNoteWgt->exec();
 }
 
 void MainWidget::deleteNote(int id)
@@ -72,6 +85,19 @@ void MainWidget::deleteNote(int id)
     ui->stackedWidget->removeWidget(noteRightList[id]);
 
     noteRightList.remove(id);
+}
+
+void MainWidget::createrNewNote(const QString &name, const QString &text)
+{
+    int id = db->createrNewNote(name, text);
+
+    NoteModel* model = db->newNoteById(id);
+
+    noteList.append(model);
+
+    addItem(model);
+
+    searchNotes(ui->search->text());
 }
 
 void MainWidget::openPage(QListWidgetItem *item)

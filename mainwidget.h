@@ -8,6 +8,7 @@
 #include "startpage.h"
 #include "database.h"
 #include "noterightview.h"
+#include "addnote.h"
 
 namespace Ui {
 class MainWidget;
@@ -27,8 +28,11 @@ private slots:
     void    openPage(QListWidgetItem* item);
     void    searchNotes(const QString& subStr);
     void    addItem(NoteModel* model);
+    void    addNote();
 
     void    deleteNote(int id);
+
+    void    createrNewNote(const QString& name, const QString& text);
 
 private:
     Ui::MainWidget *ui;
@@ -38,6 +42,8 @@ private:
     DataBase*       db;
     NoteModelList   noteList;
     QMap<int, NoteRightView*> noteRightList;
+    AddNote*        addNoteWgt;
+
 };
 
 #endif // MAINWIDGET_H
