@@ -88,6 +88,9 @@ void MainWidget::createrNewNote(const QString &name, const QString &text)
 
     NoteModel* model = db->newNoteById(id);
 
+    if(model == Q_NULLPTR)
+        return;
+
     noteList.append(model);
 
     addItem(model);

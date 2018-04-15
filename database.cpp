@@ -10,7 +10,20 @@ DataBase::DataBase(QObject *parent)
     db.setDatabaseName("database.sqlite3");
 
     if(db.open())
+    {
+        QSqlQuery query(db);
+
+        QString str_query = "CREATE TABLE IF NOT EXISTS `Notes` ("
+                            "`id`	INTEGER PRIMARY KEY AUTOINCREMENT,"
+                            "`name`	TEXT NOT NULL,"
+                            "`text`	TEXT,"
+                            "`date`	TEXT NOT NULL );";
+
+        query.exec(str_query);
+
         qDebug() << "База данных | База данных успешно открыта" << endl;
+
+    }
     else
         qDebug() << "База данных | Ошибка открытия базы данных" << endl;
 }
@@ -112,9 +125,9 @@ void DataBase::saveNoteById(int id, const QString &name, const QString &text)
                                 "SET name = '%2', text = '%3' "
                                 "WHERE id = %1"
                                 )
-                                .arg(id)
-                                .arg(name)
-                                .arg(text);
+            .arg(id)
+            .arg(name)
+            .arg(text);
 
     if(!query.exec(str_query))
         qDebug() << "База данных | Ошибка сохранения инфы о заметки";
